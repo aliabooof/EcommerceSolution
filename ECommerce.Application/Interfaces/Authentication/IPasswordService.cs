@@ -1,4 +1,5 @@
 ﻿using Microsoft.Identity.Client;
+using AuthenticationResult = ECommerce.Application.Dtos.Models.AuthenticationResult;
 using System;
 using System.Collections.Generic;
 using System.Linq;

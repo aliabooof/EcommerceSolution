@@ -10,7 +10,8 @@ namespace ECommerce.Application.Dtos.Models
     {
         public bool Success { get; set; }=default!; 
         public string Token { get; set; } =default!;
-        public List<string> Errors { get; set; }= new List<string>();
+        public bool RemeberMe { get; set; }
+        public List<string>? Errors { get; set; }
 
     }
 }

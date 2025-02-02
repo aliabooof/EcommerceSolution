@@ -1,6 +1,7 @@
 using ECommerce.Application.Interfaces.Authentication;
 using ECommerce.Application.Services.Authentication;
 using ECommerce.Infrastructure.Data;
+using ECommerce.Infrastructure.Services.Authentication;
 using EcommerceSolution.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
 

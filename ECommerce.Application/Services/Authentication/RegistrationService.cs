@@ -40,7 +40,6 @@ namespace ECommerce.Application.Services.Authentication
                 return new AuthenticationResult
                 {
                     Success = true
-
                 };
             }
             else
@@ -48,7 +47,7 @@ namespace ECommerce.Application.Services.Authentication
                 return new AuthenticationResult
                 {
                     Success = false,
-                    Errors = (List<string>)result.Errors.Select(x => x.Description)
+                    Errors = result.Errors.Select(x => x.Description).ToList()
                 };
             }
         }

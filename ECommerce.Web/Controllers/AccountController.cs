@@ -8,10 +8,12 @@ namespace ECommerce.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IRegistrationService _registrationService;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AccountController(IRegistrationService registrationService)
+        public AccountController(IRegistrationService registrationService, IAuthenticationService authenticationService)
         {
             _registrationService = registrationService;
+            _authenticationService = authenticationService;
         }
 
         public IActionResult Index()
@@ -49,6 +51,39 @@ namespace ECommerce.Web.Controllers
                 }
             }
             return View();
+      
+        }
+
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]  
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return (View(model));
+            }
+
+            var result = await _authenticationService.LoginAsync(new LoginDto
+            {
+                Email = model.Email,
+                Password = model.Password,
+                RememberMe = model.RememberMe
+            });
+            if (result.Success)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+           foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+
+            return View(model);
         }
     }
 }

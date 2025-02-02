@@ -1,10 +1,11 @@
-﻿using ECommerce.Application.Interfaces.Authentication;
+﻿using AuthenticationResult = ECommerce.Application.Dtos.Models.AuthenticationResult;
 using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ECommerce.Application.Interfaces.Authentication;
 
 namespace ECommerce.Application.Services.Authentication
 {
