@@ -17,6 +17,6 @@ namespace EcommerceSolution.Domain.Entities
         [Required]
         public DateTime BirthDate { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.UtcNow;
-        public string ProfileImage { get; set; } = default!;
+        public string ProfileImage { get; set; } = "default!";
     }
 }
