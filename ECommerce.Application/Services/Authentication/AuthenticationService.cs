@@ -2,13 +2,8 @@
 using AuthenticationResult = ECommerce.Application.Dtos.Models.AuthenticationResult;
 using EcommerceSolution.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ECommerce.Application.Interfaces.Authentication;
+using Microsoft.Extensions.Logging;
 
 namespace ECommerce.Infrastructure.Services.Authentication
 {
@@ -16,10 +11,14 @@ namespace ECommerce.Infrastructure.Services.Authentication
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        public AuthenticationService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly ILogger _logger;
+
+        public AuthenticationService(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
+            ILogger logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
         }
 
         public async Task<AuthenticationResult> LoginAsync(LoginDto dto)
@@ -67,6 +66,16 @@ namespace ECommerce.Infrastructure.Services.Authentication
 
 
 
+        }
+
+        public async Task<AuthenticationResult> LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User signed out.");
+            return new AuthenticationResult
+            {
+                Success = true
+            };
         }
     }
 }

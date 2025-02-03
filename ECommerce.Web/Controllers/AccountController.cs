@@ -41,16 +41,17 @@ namespace ECommerce.Web.Controllers
                     ProfileImage = model.ProfileImage
                 });
 
-                if (result.Success)
+                if (!result.Success)
                 {
-                    return RedirectToAction("Index", "Home");
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error);
-                }
+                return View("RegistrationSuccessful");
             }
-            return View();
+            return View(model);
       
         }
 
@@ -85,5 +86,32 @@ namespace ECommerce.Web.Controllers
 
             return View(model);
         }
+   
+       public async Task<IActionResult> ConfirmEmail(string userid, string token)
+       {
+            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(token))
+            {
+                return RedirectToAction(nameof(Login));
+            }
+            var result =  await _registrationService.ConfirmEmailAsync(userid,token);
+
+            if (result.Success)
+            {
+                return View("AccountConfirmed");
+            }
+            return View();
+       }
+
+        public async Task<IActionResult> Logout()
+        {
+            var result = await _authenticationService.LogoutAsync();
+            if (!result.Success)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View(nameof(Login));
+        }
+
+
     }
 }
